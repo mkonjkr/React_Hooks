@@ -1,24 +1,25 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
 
-function App() {
+const App = () => {
+  const [ count, setCount ] = useState(0);
+  const [ email, setEmail ] = useState("");
+
+  const updateEmail = e => {
+    const {
+      target: {value}
+    } = e;
+    setEmail(value);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> this is for testing
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <p>{count}</p>
+      <button onClick={ () => setCount(count + 1)}> Add </button>
+      <button onClick={ () => setCount(count - 1)}> Minus</button>
+      <input placeholder="Email" value={email} onChange={updateEmail}/>
     </div>
+    
   );
 }
 
