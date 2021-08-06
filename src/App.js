@@ -1,26 +1,36 @@
-import React, { useState } from 'react';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+
+const UserInput = (initialValue, validator) => {
+  const [value, setValue] = useState(initialValue);
+  const onChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+
+    let willUpdate = true;
+
+    if (typeof validator === "function") {
+      willUpdate = validator(value);
+    }
+    if (willUpdate) {
+      setValue(value);
+    }
+  };
+  return { value, onChange };
+};
 
 const App = () => {
-  const [ count, setCount ] = useState(0);
-  const [ email, setEmail ] = useState("");
+  const maxLen = (value) => value.length <= 10;
 
-  const updateEmail = e => {
-    const {
-      target: {value}
-    } = e;
-    setEmail(value);
-  }
+  const name = UserInput("Mr.", maxLen);
 
   return (
     <div>
-      <p>{count}</p>
-      <button onClick={ () => setCount(count + 1)}> Add </button>
-      <button onClick={ () => setCount(count - 1)}> Minus</button>
-      <input placeholder="Email" value={email} onChange={updateEmail}/>
+      <h1> Hello World </h1>
+      <input placeholder="Email" {...name} />
     </div>
-    
   );
-}
+};
 
 export default App;
