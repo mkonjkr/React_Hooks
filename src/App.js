@@ -1,36 +1,44 @@
-import React, { useState } from "react";
+'use Strict'
+import React, { StrictMode, useState } from "react";
 import "./App.css";
 
-const UserInput = (initialValue, validator) => {
-  const [value, setValue] = useState(initialValue);
-  const onChange = (event) => {
-    const {
-      target: { value },
-    } = event;
 
-    let willUpdate = true;
+// Contents Array
+const contents = [
+  {
+    tab: "Section 1",
+    content: "Content of Section 1"
+  },
+  {
+    tab: "Section 2",
+    content: "Content of Section 2"
+  }
+];
 
-    if (typeof validator === "function") {
-      willUpdate = validator(value);
-    }
-    if (willUpdate) {
-      setValue(value);
-    }
-  };
-  return { value, onChange };
-};
+const useTab = (initialValue, currentArray) => {
+  const [ currentIndex, setCurrentIdex ] = useState(initialValue);
+
+  if(!currentArray || !Array.isArray(currentArray)){
+    return ;
+  }
+
+  return {
+    currentItem: currentArray[currentIndex],
+    changeItem: setCurrentIdex
+  }
+}
 
 const App = () => {
-  const maxLen = (value) => value.length <= 10;
-
-  const name = UserInput("Mr.", maxLen);
-
-  return (
+  const {currentItem, changeItem} = useTab(0, contents);
+  return(
     <div>
-      <h1> Hello World </h1>
-      <input placeholder="Email" {...name} />
+      <p> Practice of useState #2 </p>
+      { contents.map( (section, index) => (
+        <button onClick ={ () => changeItem(index)}> {section.tab}</button>
+      ))}
+      <p>{currentItem.content}</p>
     </div>
-  );
-};
+  )
+}
 
 export default App;
