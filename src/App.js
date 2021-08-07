@@ -1,42 +1,28 @@
 'use Strict'
-import React, { StrictMode, useState } from "react";
-import "./App.css";
+import React, { useState, useEffect } from "react";
 
+const useTitle = initialValue =>{
+    
+  const [title, setTitle] = useState(initialValue)
 
-// Contents Array
-const contents = [
-  {
-    tab: "Section 1",
-    content: "Content of Section 1"
-  },
-  {
-    tab: "Section 2",
-    content: "Content of Section 2"
-  }
-];
-
-const useTab = (initialValue, currentArray) => {
-  const [ currentIndex, setCurrentIdex ] = useState(initialValue);
-
-  if(!currentArray || !Array.isArray(currentArray)){
-    return ;
+  const updateTitle = () => {
+    const htmlTitle = document.querySelector("title");
+    htmlTitle.innerText = title;
   }
 
-  return {
-    currentItem: currentArray[currentIndex],
-    changeItem: setCurrentIdex
-  }
+  useEffect(updateTitle, [title]);
+  return setTitle;
 }
 
 const App = () => {
-  const {currentItem, changeItem} = useTab(0, contents);
-  return(
+
+  const titleUpdater = useTitle("Loading...");
+  setTimeout( () => titleUpdater("Home"), 3000);
+
+  return (
+
     <div>
-      <p> Practice of useState #2 </p>
-      { contents.map( (section, index) => (
-        <button onClick ={ () => changeItem(index)}> {section.tab}</button>
-      ))}
-      <p>{currentItem.content}</p>
+      <p>Pracitce of useEffect #1</p>
     </div>
   )
 }
